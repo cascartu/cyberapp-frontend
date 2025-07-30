@@ -5,25 +5,35 @@ import axios from 'axios'
 export default function ChallengeDetail() {
   const router = useRouter()
   const { id } = router.query
-
   const [challenge, setChallenge] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (id) {
-      axios
-        .get(`https://cyberapp-backend.onrender.com/api/challenges/${id}`)
-        .then((res) => setChallenge(res.data))
-        .catch((err) => console.error(err))
+    if (!id) return
+    const fetchChallenge = async () => {
+      try {
+        const res = await axios.get(`https://cyberapp-backend.onrender.com/api/challenges/${id}`)
+        setChallenge(res.data)
+      } catch (err) {
+        console.error('Error fetching challenge:', err)
+      } finally {
+        setLoading(false)
+      }
     }
+    fetchChallenge()
   }, [id])
 
-  if (!challenge) return <p>Cargando reto...</p>
+  if (loading) return <p>Cargando reto...</p>
+  if (!challenge) return <p>No se encontró el reto.</p>
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">{challenge.title}</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-2">{challenge.title}</h1>
       <p className="mb-4">{challenge.description}</p>
-      <p className="text-sm text-gray-600">Puntos: {challenge.points}</p>
+      <form>
+        <input type="text" placeholder="Tu respuesta aquí" className="border p-2 mb-2 block" />
+        <button type="submit" className="bg-blue-500 text-white p-2">Enviar</button>
+      </form>
     </div>
   )
 }
