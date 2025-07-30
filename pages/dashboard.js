@@ -1,15 +1,26 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function Dashboard() {
   const [challenges, setChallenges] = useState([]);
+  const router = useRouter();
 
+  // Protege el acceso: redirige si no hay token
   useEffect(() => {
-    axios.get('https://cyberapp-backend.onrender.com/api/challenges')
-      .then(res => setChallenges(res.data))
-      .catch(err => console.error(err));
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
   }, []);
-
+  // Carga de retos
+  useEffect(() => {
+    axios
+      .get('https://cyberapp-backend.onrender.com/api/challenges')
+      .then((res) => setChallenges(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+  
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Retos disponibles</h1>
