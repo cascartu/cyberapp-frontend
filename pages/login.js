@@ -25,6 +25,9 @@ export default function Login() {
         <input type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} className="border p-2" />
         <button className="bg-blue-500 text-white p-2">Entrar</button>
         {message && <p className="text-red-500">{message}</p>}
+        <p className="text-sm mt-4">
+          ¿No tienes cuenta? <a href="/register" className="text-blue-500 underline">Regístrate aquí</a>
+        </p>
       </form>
     </div>
   );
