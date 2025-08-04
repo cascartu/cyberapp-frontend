@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Link from 'next/link'; // ✅ solo esta línea es necesaria
 
 export default function Dashboard() {
   const [challenges, setChallenges] = useState([]);
   const router = useRouter();
 
-  // Protege el acceso: redirige si no hay token
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -15,7 +14,6 @@ export default function Dashboard() {
     }
   }, []);
 
-  // Carga de retos
   useEffect(() => {
     axios
       .get('https://cyberapp-backend.onrender.com/api/challenges')
@@ -41,4 +39,4 @@ export default function Dashboard() {
       </ul>
     </div>
   );
-} // <== ESTA llave faltaba para cerrar bien el componente
+}
