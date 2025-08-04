@@ -22,7 +22,6 @@ export default function Dashboard() {
       .catch((err) => console.error(err));
   }, []);
   
-  import Link from 'next/link';
 
 return (
   <div className="p-8">
